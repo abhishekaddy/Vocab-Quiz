@@ -9,7 +9,7 @@ async function getWords() {
   let resp = await fetch('https://random-word-api.herokuapp.com/word?number=20');
   let words = await resp.json();
   // Get words with >5 letters for difficulty, adjust as needed
-  return words.filter(w => w.length > 5).slice(0, 10);
+  return words.filter(w => w.length > 3).slice(0, 10);
 }
 
 // Helper to fetch meanings using Free Dictionary API
@@ -73,3 +73,4 @@ submitBtn.onclick = function() {
 };
 
 buildQuiz();
+
