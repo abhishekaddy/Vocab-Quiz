@@ -4,11 +4,12 @@ const resultsDiv = document.getElementById('results');
 let questions = [];
 let correctAnswers = {};
 
-// Helper to fetch random long words from Datamuse
+// Helper to fetch truly random words (more variety than Datamuse)
 async function getWords() {
-  let resp = await fetch('https://api.datamuse.com/words?sp=????*&max=20');
+  let resp = await fetch('https://random-word-api.herokuapp.com/word?number=20');
   let words = await resp.json();
-  return words.map(w => w.word);
+  // Get words with >5 letters for difficulty, adjust as needed
+  return words.filter(w => w.length > 5).slice(0, 10);
 }
 
 // Helper to fetch meanings using Free Dictionary API
@@ -32,7 +33,7 @@ async function buildQuiz() {
     if (def) definitions.push({ word: w, definition: def });
     if (definitions.length >= 6) break; // Stop at 6 questions
   }
-  questions = definitions.slice(0,6); // Use 6 questions
+  questions = definitions.slice(0,6); // Use up to 6 questions
 
   quizForm.innerHTML = ""; // Clear previous content
 
@@ -43,7 +44,7 @@ async function buildQuiz() {
       let wrong = definitions[Math.floor(Math.random()*definitions.length)].definition;
       if (wrong !== item.definition && !options.includes(wrong)) options.push(wrong);
     }
-    options = options.sort(() => Math.random()-0.5); // Shuffle
+    options = options.sort(() => Math.random() - 0.5); // Shuffle
 
     correctAnswers[`q${idx}`] = item.definition;
 
