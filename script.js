@@ -4,12 +4,12 @@ const resultsDiv = document.getElementById('results');
 let questions = [];
 let correctAnswers = {};
 
-// Helper to fetch truly random words (more variety than Datamuse)
+// Helper to fetch 10 truly random words
 async function getWords() {
-  let resp = await fetch('https://random-word-api.herokuapp.com/word?number=20');
+  let resp = await fetch('https://random-word-api.herokuapp.com/word?number=10');
   let words = await resp.json();
-  // Get words with >5 letters for difficulty, adjust as needed
-  return words.filter(w => w.length > 3).slice(0, 10);
+  // You can filter out very short words
+  return words.filter(w => w.length > 5);
 }
 
 // Helper to fetch meanings using Free Dictionary API
@@ -26,35 +26,42 @@ async function getDefinition(word) {
 
 // Build questions and UI
 async function buildQuiz() {
-  let words = await getWords();
+  let words = await getWords(); // Get 10 random words
   let definitions = [];
   for (let w of words) {
     let def = await getDefinition(w);
     if (def) definitions.push({ word: w, definition: def });
-    if (definitions.length >= 6) break; // Stop at 6 questions
+    if (definitions.length === 6) break; // Stop at first 6 found definitions
   }
-  questions = definitions.slice(0,6); // Use up to 6 questions
+  questions = definitions.slice(0,6);
 
-  quizForm.innerHTML = ""; // Clear previous content
+  quizForm.innerHTML = "";
+
+  if (questions.length === 0) {
+    quizForm.innerHTML = "<div>No suitable words found. Please refresh the page.</div>";
+    submitBtn.disabled = true;
+    return;
+  }
 
   questions.forEach((item, idx) => {
-    // Prepare 4 options: correct + 3 wrong
+    // Prepare 4 options (correct + 3 wrong)
     let options = [item.definition];
-    while (options.length < 4) {
-      let wrong = definitions[Math.floor(Math.random()*definitions.length)].definition;
+    while (options.length < 4 && definitions.length > 1) {
+      let wrong = definitions[Math.floor(Math.random() * definitions.length)].definition;
       if (wrong !== item.definition && !options.includes(wrong)) options.push(wrong);
     }
-    options = options.sort(() => Math.random() - 0.5); // Shuffle
+    options = options.sort(() => Math.random() - 0.5);
 
     correctAnswers[`q${idx}`] = item.definition;
 
-    let html = `<div><b>${idx+1}. ${item.word}</b><br>`;
+    let html = `<div><b>${idx + 1}. ${item.word}</b><br>`;
     options.forEach((opt, oi) => {
       html += `<input type="radio" name="q${idx}" value="${opt}" required> ${opt}<br>`;
     });
     html += '</div>';
     quizForm.innerHTML += html;
   });
+  submitBtn.disabled = false;
 }
 
 submitBtn.onclick = function() {
@@ -63,9 +70,9 @@ submitBtn.onclick = function() {
     let selected = document.querySelector(`input[name="q${i}"]:checked`);
     if (selected && selected.value === correctAnswers[`q${i}`]) {
       score++;
-      results.push(`<div class="correct">Q${i+1}: Correct!</div>`);
+      results.push(`<div class="correct">Q${i + 1}: Correct!</div>`);
     } else {
-      results.push(`<div class="wrong">Q${i+1}: Wrong! Correct: <i>${correctAnswers[`q${i}`]}</i></div>`);
+      results.push(`<div class="wrong">Q${i + 1}: Wrong! Correct: <i>${correctAnswers[`q${i}`]}</i></div>`);
     }
   }
   resultsDiv.innerHTML = `<h2>Score: ${score}/${questions.length}</h2>` + results.join('');
@@ -73,4 +80,3 @@ submitBtn.onclick = function() {
 };
 
 buildQuiz();
-
