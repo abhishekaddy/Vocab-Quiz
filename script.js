@@ -4,15 +4,14 @@ const resultsDiv = document.getElementById('results');
 let questions = [];
 let correctAnswers = {};
 
-// Helper to fetch 10 truly random words
+// Fetch 30 random words
 async function getWords() {
-  let resp = await fetch('https://random-word-api.herokuapp.com/word?number=10');
+  let resp = await fetch('https://random-word-api.herokuapp.com/word?number=30');
   let words = await resp.json();
-  // You can filter out very short words
-  return words.filter(w => w.length > 5);
+  return words; // Don't filter for length for best coverage
 }
 
-// Helper to fetch meanings using Free Dictionary API
+// Get definition using Free Dictionary API
 async function getDefinition(word) {
   try {
     let resp = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -24,16 +23,16 @@ async function getDefinition(word) {
   return null;
 }
 
-// Build questions and UI
+// Build questions based on defined words
 async function buildQuiz() {
-  let words = await getWords(); // Get 10 random words
+  let words = await getWords();
   let definitions = [];
   for (let w of words) {
     let def = await getDefinition(w);
     if (def) definitions.push({ word: w, definition: def });
-    if (definitions.length === 6) break; // Stop at first 6 found definitions
+    if (definitions.length === 6) break; // Get top 6 with definitions
   }
-  questions = definitions.slice(0,6);
+  questions = definitions.slice(0, 6);
 
   quizForm.innerHTML = "";
 
@@ -44,7 +43,7 @@ async function buildQuiz() {
   }
 
   questions.forEach((item, idx) => {
-    // Prepare 4 options (correct + 3 wrong)
+    // Prepare 4 options (1 correct + 3 wrong)
     let options = [item.definition];
     while (options.length < 4 && definitions.length > 1) {
       let wrong = definitions[Math.floor(Math.random() * definitions.length)].definition;
@@ -55,7 +54,7 @@ async function buildQuiz() {
     correctAnswers[`q${idx}`] = item.definition;
 
     let html = `<div><b>${idx + 1}. ${item.word}</b><br>`;
-    options.forEach((opt, oi) => {
+    options.forEach(opt => {
       html += `<input type="radio" name="q${idx}" value="${opt}" required> ${opt}<br>`;
     });
     html += '</div>';
