@@ -8,33 +8,13 @@
 <body>
   <main class="container">
     <h1>Vocabulary Quiz Challenge</h1>
-    <p class="instructions">
-      Enter (or select) your name to start.<br>
-      Choose the correct meaning for each word. Reload for new words!
-    </p>
-
-    <!-- Name selection section -->
-    <div id="name-section">
-      <input id="name-input" type="text" placeholder="Enter your name" style="display:none;" />
-      <select id="name-dropdown" style="display:none;"></select>
-      <button id="name-btn" class="main-btn">Start Quiz</button>
-    </div>
-
-    <!-- Quiz section -->
+    <p class="instructions">Choose the correct meaning for each word. Reload for new words!</p>
     <form id="quiz-form"></form>
-    <button id="submit-btn" class="main-btn" type="button" disabled>Submit Answers</button>
+    <button id="submit-btn" type="button">Submit Answers</button>
     <div id="results"></div>
-
-    <!-- Leaderboard section -->
-    <section id="leaderboard-area">
-      <h2>Leaderboard</h2>
-      <div id="leaderboard"></div>
-    </section>
   </main>
   <footer>
-    <p>
-      Created by You | Powered by Google Sheets | Refresh for a new quiz
-    </p>
+    <p>Created by You | Powered by Random Word API & Free Dictionary</p>
   </footer>
   <script src="script.js"></script>
 </body>
