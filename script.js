@@ -1,4 +1,4 @@
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwCt-8WgjGZg8G2e1HEMgWpARp4M7BxDh0VedNFJUUtgp3Doarsa-jrO6yCUV_Paz_Q/exec";
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbx002RM4dcUhqkVg317JCP574K2kSrTPYSzFNvFD9UtlyHwEx34XwNhNgBRaUwfMFqD/exec";
 
 const quizForm = document.getElementById('quiz-form');
 const submitBtn = document.getElementById('submit-btn');
@@ -200,3 +200,4 @@ window.onload = async function() {
   await initNameLogic();
   showLeaderboard();
 };
+
