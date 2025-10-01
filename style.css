@@ -6,16 +6,16 @@ body {
 }
 
 .container {
-  max-width: 540px;
-  margin: 56px auto 16px auto;
+  max-width: 580px;
+  margin: 48px auto 18px auto;
   background: #fff;
-  border-radius: 16px;
-  padding: 36px 26px;
-  box-shadow: 0 6px 32px rgba(50,130,190,0.11);
+  border-radius: 18px;
+  padding: 36px 26px 24px 26px;
+  box-shadow: 0 6px 32px rgba(50,130,190,0.13);
 }
 
 h1 {
-  color: #125384;
+  color: #115384;
   letter-spacing: 2px;
   text-align: center;
   margin-top: 0;
@@ -24,8 +24,27 @@ h1 {
 .instructions {
   color: #1976d2;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   font-weight: 500;
+  font-size: 1.05em;
+}
+#name-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+#name-input, #name-dropdown {
+  font-size: 1em;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #bce0fa;
+  min-width: 120px;
+}
+#name-btn {
+  padding: 9px 17px;
 }
 
 form > div {
@@ -39,21 +58,22 @@ form > div {
 input[type="radio"] {
   accent-color: #2193b0;
   margin-right: 8px;
-  transform: scale(1.18);
+  transform: scale(1.16);
 }
 
-button {
+.main-btn, button {
   background: linear-gradient(90deg, #2193b0 0%, #6dd5ed 100%);
   color: #fff;
   border: none;
-  padding: 12px 28px;
+  padding: 13px 24px;
   border-radius: 8px;
-  font-size: 1.08em;
+  font-size: 1.07em;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(33,147,176,0.07);
-  margin-top: 30px;
-  transition: background 0.19s;
+  box-shadow: 0 2px 8px rgba(33,147,176,0.09);
+  margin-top: 18px;
+  margin-bottom: 4px;
+  transition: background 0.15s;
 }
 
 button:disabled {
@@ -62,24 +82,61 @@ button:disabled {
 }
 
 #results {
-  margin-top: 36px;
-  font-size: 1.18em;
+  margin-top: 34px;
+  font-size: 1.16em;
 }
 
 .correct {
-  color: #32c985;
+  color: #26b018;
   font-weight: bold;
 }
 
 .wrong {
-  color: #de2b6f;
+  color: #de365a;
   font-weight: bold;
 }
 
+#leaderboard-area {
+  margin-top: 42px;
+}
+#leaderboard-area h2 {
+  text-align: center;
+  margin: 0 0 14px 0;
+  color: #1976d2;
+  font-size: 1.32em;
+}
+
+#leaderboard {
+  margin: 0 auto;
+  max-width: 390px;
+}
+#leaderboard table {
+  width: 98%;
+  margin: 0 auto;
+  background: #f2f8ff;
+  border-radius: 6px;
+  border-collapse: collapse;
+}
+#leaderboard th, #leaderboard td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #d1dbe9;
+}
+#leaderboard tr:last-child td {
+  border-bottom: none;
+}
+#leaderboard th {
+  background: #bde0fd;
+  color: #114061;
+}
+#leaderboard td {
+  color: #275679;
+}
+
 footer {
-  margin: 30px 0 8px 0;
   text-align: center;
   color: #fff;
+  margin: 30px 0 8px 0;
   font-size: 1em;
   font-family: monospace;
 }
